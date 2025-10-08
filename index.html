@@ -20,7 +20,6 @@
     position: relative;
   }
 
-  /* efecto de humo animado */
   .smoke {
     position: absolute;
     top: 0;
@@ -99,12 +98,29 @@
   </div>
 
   <!-- Música -->
-  <audio autoplay loop style="display:none">
-  <source src="musica.mp3" type="audio/mpeg">
-</audio>
-
+  <audio id="bgMusic" autoplay loop>
+    <source src="musica.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
+    const music = document.getElementById('bgMusic');
+
+    // Intentar reproducir automáticamente
+    window.addEventListener('load', () => {
+      music.play().catch(err => {
+        console.warn("Autoplay bloqueado, esperando interacción...");
+      });
+    });
+
+    // Si el autoplay fue bloqueado, reproducir con el primer clic
+    document.addEventListener('click', () => {
+      if (music.paused) {
+        music.play().then(() => {
+          console.log("Música iniciada tras interacción.");
+        });
+      }
+    }, { once: true });
+
     function checkPassword() {
       const input = document.getElementById('password').value;
       const correctPassword = 'CNcJ4';
@@ -119,4 +135,3 @@
   </script>
 </body>
 </html>
-
